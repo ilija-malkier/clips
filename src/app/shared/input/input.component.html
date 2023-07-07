@@ -1,0 +1,28 @@
+<input
+  [formControl]="myformControl"
+  [type]="type"
+  class="block w-full py-1.5 px-3 text-gray-200 border border-gray-400 transition
+                    duration-500 focus:outline-none rounded bg-transparent focus:border-indigo-400"
+  [placeholder]="placeholder"  />
+<ng-container *ngIf="myformControl.dirty && myformControl?.invalid">
+  <!--ng-content,ng-template(content must be conditionally rendered) ovo je invisible container da ne menjamo kontent sa <div> elemntom -->
+  <p *ngIf=" myformControl?.errors?.['required']" class="text-red-400">
+    Field is required.
+  </p>
+  <p *ngIf="myformControl?.errors?.['minlength']" class="text-red-400">
+    The value must be more then 3 characters.
+  </p>
+  <p *ngIf="myformControl?.errors?.['email']" class="text-red-400">
+   Email is not valid.
+  </p>
+  <p *ngIf="myformControl?.errors?.['min']" class="text-red-400">
+   Number cant be less then 18
+  </p>
+  <p *ngIf="myformControl?.errors?.['max']" class="text-red-400">
+   Number cant be more then 120
+  </p>
+  <p *ngIf="myformControl?.errors?.['pattern']" class="text-red-400">
+   Pattern does not match(Must contain 1 letter and 1 number).
+  </p>
+</ng-container>
+

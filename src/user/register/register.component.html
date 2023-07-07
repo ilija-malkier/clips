@@ -1,0 +1,63 @@
+<!--Submit radi refresh default behaviour page,a ngsubmit to zaustavlja-->
+<app-alert *ngIf="showAlert" [color]="alertColor">
+  {{alertMessage}}
+</app-alert>
+<!--VIDI OVO   ngDefaultControl to si dodao pa ti proradilo-->
+<form [formGroup]="registerForm" (ngSubmit)="register()">
+  <!-- Name -->
+  <div class="mb-3">
+    <label class="inline-block mb-2">Name</label>
+    <app-input ngDefaultControl [myformControl]="name" placeholder="Enter Name" type="text">
+
+    </app-input>
+  </div>
+  <!-- Email -->
+  <div class="mb-3">
+    <label class="inline-block mb-2">Email</label>
+    <!--kad hocu da setujem objekat mora [] a kada je string ili number onda ide bez toga []-->
+    <app-input ngDefaultControl [myformControl]="email" placeholder="Enter Email" type="email">
+
+    </app-input>
+  </div>
+  <!-- Age -->
+  <div class="mb-3">
+    <label class="inline-block mb-2">Age</label>
+    <app-input ngDefaultControl [myformControl]="age" placeholder="Enter Age" type="number">
+
+    </app-input>
+  </div>
+  <!-- Password -->
+  <div class="mb-3">
+    <label class="inline-block mb-2">Password</label>
+    <app-input ngDefaultControl [myformControl]="password" placeholder="Enter Password" type="password">
+
+    </app-input>
+  </div>
+  <!-- Confirm Password -->
+  <div class="mb-3">
+    <label class="inline-block mb-2">Confirm Password</label>
+    <app-input ngDefaultControl [myformControl]="configrm_password" placeholder="Confirm Password" type="password">
+
+    </app-input>
+  </div>
+  <!-- Phone Number -->
+  <div class="mb-3">
+    <label class="inline-block mb-2">Phone Number</label>
+    <!--Moramo da instaliramo input max preko "npm i ngx-mask"-->
+    <app-input ngDefaultControl [myformControl]="phoneNumber" placeholder="Enter Phone Number" format="(000)000-0000">
+
+    </app-input>
+  </div>
+  <button
+    [disabled]="registerForm.invalid"
+    type="submit"
+    class="
+
+          block w-full bg-indigo-400 text-white py-1.5 px-3 rounded transition
+                  hover:bg-indigo-500
+          disabled: opacity-50
+"
+  >
+    Submit
+  </button>
+</form>
