@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {AngularFireAuth} from "@angular/fire/compat/auth";
+import {AngularFirestore} from "@angular/fire/compat/firestore";
 
 export  interface IUser{
   name:string,
@@ -12,7 +13,7 @@ export  interface IUser{
 })
 export class AuthService {
 
-  constructor(private angularAuthFire:AngularFireAuth) { }
+  constructor(private angularAuthFire:AngularFireAuth,private angularFirestore:AngularFirestore) { }
 
   public async registerUser(email:string,password:string){
     this.angularAuthFire.createUserWithEmailAndPassword(email,password);
