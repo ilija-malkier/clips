@@ -24,5 +24,11 @@
   <p *ngIf="myformControl?.errors?.['pattern']" class="text-red-400">
    Pattern does not match(Must contain 1 letter and 1 number).
   </p>
+  <p *ngIf="myformControl?.errors?.['noMatch']" class="text-red-400">
+    Password do not match.
+  </p>
+  <p *ngIf="myformControl?.errors?.['emailTaken']" class="text-red-400">
+    Email taken.Please try another email.
+  </p>
 </ng-container>
 

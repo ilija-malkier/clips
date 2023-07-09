@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService, IUser} from "../auth.service";
+import {RegisterValidators} from "../../app/validators/register-validators";
+import {EmailTaken} from "../../app/validators/email-taken";
 
 @Component({
   selector: 'app-register',
@@ -12,7 +14,7 @@ export class RegisterComponent {
 
   name = new FormControl('', [Validators.required, Validators.minLength(3)]);
   email = new FormControl('',
-    [Validators.email, Validators.required]
+    [Validators.email, Validators.required],[this.emailTakenValidator.validate]
   );
   age = new FormControl('', [Validators.required, Validators.min(18), Validators.max(120)])
 
@@ -29,14 +31,14 @@ export class RegisterComponent {
     confirm_password: this.configrm_password,
     phoneNumber: this.phoneNumber
 
-  });
+  },[RegisterValidators.match('password','confirm_password')]);
 
   showAlert = false;
   alertMessage = 'Please wait! Your account is being created.';
   alertColor = 'blue';
 
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService,private emailTakenValidator:EmailTaken) {
   }
 
   async register() {
@@ -46,8 +48,10 @@ export class RegisterComponent {
     this.alertColor = 'blue';
 
     try {
-      await this.authService.registerUser(this.email.value as string,this.password.value as string);
-      await this.authService.createUser(this.registerForm.value as IUser);
+      let userCredential = await this.authService.registerUser(this.email.value as string,this.password.value as string);
+      let user =this.registerForm.value as IUser;
+      user.uid=<string>userCredential.user?.uid;
+      await this.authService.createUser(user);
     } catch (e) {
 
       this.alertMessage = "An unexprected error occurred.Please try again alter";
