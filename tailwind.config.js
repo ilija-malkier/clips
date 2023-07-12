@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   //to purge css,search for css
-  content: ['./sec/**/*.{html,ts}'],
+  content: ['./src/**/*.{html,ts}'],
   theme: {
     extend: {
       backgroundColor:["disabled"],

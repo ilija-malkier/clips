@@ -33,32 +33,42 @@ export class RegisterComponent {
 
   },[RegisterValidators.match('password','confirm_password')]);
 
-  showAlert = false;
-  alertMessage = 'Please wait! Your account is being created.';
-  alertColor = 'blue';
+    showAlert = false;
+    alertMessage = 'Please wait! Your account is being created.';
+    alertColor = 'blue';
 
-
-  constructor(private authService: AuthService,private emailTakenValidator:EmailTaken) {
+  public isLoading:boolean=false;
+  constructor(public authService: AuthService,private emailTakenValidator:EmailTaken) {
   }
 
   async register() {
-    console.log(this.registerForm);
+
     this.showAlert = true;
     this.alertMessage = 'Please wait! Your account is being created.';
     this.alertColor = 'blue';
 
     try {
       let userCredential = await this.authService.registerUser(this.email.value as string,this.password.value as string);
-      let user =this.registerForm.value as IUser;
+      let user:IUser =this.registerForm.value as IUser;
       user.uid=<string>userCredential.user?.uid;
+      user.displayName=this.name.value!;
       await this.authService.createUser(user);
+      //moramo da update user-a u atuhentication da ima display name,nije isto ,imamo 2 jedan u firestore i jedan u authentication,a mi gledamo ovaj iz authentication kada izvlacimo user-a da li je logionvan
+      userCredential.user?.updateProfile({
+        displayName: user.displayName
+      })
+
     } catch (e) {
 
       this.alertMessage = "An unexprected error occurred.Please try again alter";
       this.showAlert = true;
       this.alertColor = 'red';
-      console.log(e);
+
       return;
+    }
+    finally {
+      this.isLoading=false;
+
     }
     this.alertMessage = "Success! Your account has been created.";
     this.showAlert = true;

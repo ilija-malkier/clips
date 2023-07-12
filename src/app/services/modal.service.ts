@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 interface IModal{
   id:string,
   visible:boolean
@@ -6,7 +6,7 @@ interface IModal{
 @Injectable({
   providedIn: 'root'
 })
-export class ModalService {
+export class ModalService implements OnInit{
 
   private modals:IModal[]=[];
   constructor() { }
@@ -21,12 +21,22 @@ export class ModalService {
    }
   }
 
+  closeModal(id:string){
+    const modal=this.modals.find(x=>x.id===id);
+    if(modal){
+      modal.visible=false;
+    }
+  }
   register(id: string) {
+
     this.modals.push({
       id,visible:false
     });
   }
   unregister(id:string){
    this.modals= this.modals.filter(element=>element.id!==id);
+  }
+
+  ngOnInit(): void {
   }
 }

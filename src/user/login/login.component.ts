@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {error} from "@angular/compiler-cli/src/transformers/util";
 import {NgForm} from "@angular/forms";
 import {AuthService} from "../auth.service";
+import {ModalService} from "../../app/services/modal.service";
+import {log} from "util";
 
 @Component({
   selector: 'app-login',
@@ -14,17 +16,36 @@ export class LoginComponent implements OnInit{
     email:'',
     password:''
   }
-  constructor(private authService:AuthService) {
+  public  isLoading=false;
+  public errorMessage:string="";
+  public showErrorMessage:boolean=false;
+
+  constructor(public authService:AuthService,private modalService:ModalService) {
   }
   ngOnInit(): void {
   }
 
 
-  login() {
-    this.authService.loginUser(this.credentials.email,this.credentials.password);
+ async login(loginForm: NgForm) {
+    this.isLoading=true;
+    this.showErrorMessage=false;
+    this.errorMessage="";
+
+    try {
+     await this.authService.loginUser(this.credentials.email, this.credentials.password);
+      loginForm.resetForm();
+    }
+    catch (e){
+      this.showErrorMessage=true;
+      this.errorMessage="User does not exist,please register first";
+
+    }
+    finally {
+      this.isLoading=false;
+
+    }
+
   }
 
-  test(loginForm: NgForm) {
-    console.log(loginForm.invalid);
-  }
+
 }

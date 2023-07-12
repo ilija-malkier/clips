@@ -11,7 +11,7 @@ import {Router} from "@angular/router";
 export class NavComponent {
 
 
-  constructor(public router:Router,public modalService:ModalService,public auth:AuthService) {
+  constructor(public modalService:ModalService,public auth:AuthService) {
   }
 
   openModal($event: Event) {
@@ -22,6 +22,6 @@ export class NavComponent {
   logout($event: MouseEvent) {
     $event.preventDefault();
     this.auth.logout();
-    this.router.navigateByUrl("/")
+
   }
 }

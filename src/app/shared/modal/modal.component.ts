@@ -9,7 +9,8 @@ import {ModalService} from "../../services/modal.service";
 export class ModalComponent implements  OnDestroy{
   ngOnDestroy(): void {
     //jer je deo body-ja nece da se remove moramo remote to da uradimoi
-    document.body.removeChild(this.el.nativeElement);
+    //bagovalo mi ovo
+    // document.body.removeChild(this.el.nativeElement);
   }
 
   @Input() modalID='';
